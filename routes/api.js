@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 // this is the full route --> /api/workouts...
-router.get("/workouts", async function (req, res) {
+router.get("/api/workouts", async function (req, res) {
   try {
     const workouts = await Workout.find({});
     res.json(workouts);
@@ -10,7 +10,7 @@ router.get("/workouts", async function (req, res) {
   }
 });
 
-router.put("/workouts/:id", async function (req, res) {
+router.put("/api/workouts/:id", async function (req, res) {
     try {
         const updateWorkout = await Workout.findByIDAndUpdate(
             params.id,
@@ -25,19 +25,19 @@ router.put("/workouts/:id", async function (req, res) {
     }
 });
 
-router.post("/workouts", async function (req, res) {
+router.post("/api/workouts", async function (req, res) {
     try {
-        const newWorkout = await Workout.creat({});
+        const newWorkout = await Workout.create({});
         res.json(newWorkout);
     } catch (err){
         res.status(500).end();
     }
 });
 
-router.get("/workouts/range", async function (req, res) {
+router.get("/api/workouts/range", async function (req, res) {
   try {
-    const data = await Workout.find({});
-    res.json(data);
+    const range = await Workout.find({});
+    res.json(range);
   } catch (err) {
     res.status(500).end();
   }
