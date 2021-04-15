@@ -38,4 +38,5 @@ const WorkoutSchema = new Schema({
   ],
 });
 
+
 module.exports.model("Workout", WorkoutSchema);
