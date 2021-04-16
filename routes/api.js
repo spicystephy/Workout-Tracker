@@ -1,46 +1,84 @@
 const router = require("express").Router();
+// const { Workout } = require("../models");
 
 // this is the full route --> /api/workouts...
-router.get("/api/workouts", async function (req, res) {
+router.get("/workouts", async function (req, res) {
   try {
-    const workouts = await Workout.find({});
+    const workouts = await Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: "$exercise.duration",
+          },
+        },
+      },
+    ]);
     res.json(workouts);
   } catch (err) {
-    res.status(500).end();
+    res.status(500).send(err);
   }
 });
 
-router.put("/api/workouts/:id", async function (req, res) {
-    try {
-        const updateWorkout = await Workout.findByIDAndUpdate(
-            params.id,
-            {
-                $push: { exercises: body},
-            },
-            {new: true, runValidators:true}
-        );
-        res.json(updateWorkout);
-    } catch(err) {
-        res.status(500).end()
-    }
-});
-
-router.post("/api/workouts", async function (req, res) {
-    try {
-        const newWorkout = await Workout.create({});
-        res.json(newWorkout);
-    } catch (err){
-        res.status(500).end();
-    }
-});
-
-router.get("/api/workouts/range", async function (req, res) {
+router.put("/workouts/:id", async function (req, res) {
   try {
-    const range = await Workout.find({});
-    res.json(range);
+    const updateWorkout = await Workout.findByIDAndUpdate(
+      req.params.id,
+      {
+        $push: { exercises: req.body },
+      },
+      { new: true }
+    );
+    res.json(updateWorkout);
   } catch (err) {
-    res.status(500).end();
+    res.status(500).json(err);
+  }
+});
+
+router.post("/workouts", async function (req, res) {
+  try {
+    const newWorkout = await Workout.create({});
+    res.json(newWorkout);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/workouts/range", async function (req, res) {
+  try {
+    const range = await Workout.find({})
+    .sort({ day: -1 })
+    .limit(7)
+    .then((range) => {
+      res.json(range);
+    })
+  } catch (err) {
+    res.status(500).send();
   }
 });
 
 module.exports = router;
+
+
+// router.get("/workouts", async function (req, res) {
+//   try {
+//     const workouts = await Workout.find({});
+//     res.json(workouts);
+//   } catch (err) {
+//     res.status(500).end();
+//   }
+// });
+
+// router.put("/workouts/:id", async function ({body, params}, res) {
+//   try {
+//     const updateWorkout = await Workout.findByIDAndUpdate(
+//       params.id,
+//       {
+//         $push: { exercises: body },
+//       },
+//       { new: true }
+//     );
+//     res.json(updateWorkout);
+//   } catch (err) {
+//     res.status(500).send();
+//   }
+// });
