@@ -8,16 +8,17 @@ const PORT = process.env.PORT || 8080;
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+});
 
-app.use(require("./routes"))
+app.use(require("./routes"));
+
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });
-  
 
-
-const Workout = mongoose.model("Workout", )
