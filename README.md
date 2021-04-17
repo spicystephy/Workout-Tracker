@@ -15,7 +15,7 @@ Use this app if you would like to keep track of your workout progress. You can c
  * [Questions](#questions)
  
 ## Installation
-Dependencies required are 
+Dependencies required are express and mongoosedb.
 
 
 ## Usage
@@ -26,3 +26,4 @@ Dependencies required are
 Contact me at stephaniemzavala@gmail.com or through GitHub @spicystephy for any questions.
 <br>https://github.com/spicystephy/Workout-Tracker.git
 <br>https://spicystephy.github.io/Workout-Tracker/
+<br>https://tracked-workout.herokuapp.com/
