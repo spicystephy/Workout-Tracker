@@ -8,7 +8,10 @@ router.get("/workouts", async function (req, res) {
       {
         $addFields: {
           totalDuration: {
-            $sum: "$exercise.duration",
+            $sum: "$exercises.duration",
+          },
+          totalWeight: {
+            $sum: "$exercises.weight",
           },
         },
       },
@@ -26,7 +29,7 @@ router.put("/workouts/:id", async function (req, res) {
       {
         $push: { exercises: req.body },
       },
-      { new: true }
+     
     );
     res.json(updateWorkout);
   } catch (err) {
@@ -36,8 +39,7 @@ router.put("/workouts/:id", async function (req, res) {
 
 router.post("/workouts", async function (req, res) {
   try {
-    const newWorkout = await Workout.create(req.body);
-    console.log(newWorkout);
+    const newWorkout = await Workout.create({});
     res.json(newWorkout);
   } catch (err) {
     res.status(500).json(err);
@@ -47,6 +49,7 @@ router.post("/workouts", async function (req, res) {
 router.get("/workouts/range", async function (req, res) {
   try {
     const range = await Workout.find({}).sort({ day: -1 }).limit(7);
+    console.log(range);
     res.json(range);
   } catch (err) {
     res.status(500).json(err);
@@ -64,17 +67,3 @@ module.exports = router;
 //   }
 // });
 
-// router.put("/workouts/:id", async function ({body, params}, res) {
-//   try {
-//     const updateWorkout = await Workout.findByIDAndUpdate(
-//       params.id,
-//       {
-//         $push: { exercises: body },
-//       },
-//       { new: true }
-//     );
-//     res.json(updateWorkout);
-//   } catch (err) {
-//     res.status(500).send();
-//   }
-// });
