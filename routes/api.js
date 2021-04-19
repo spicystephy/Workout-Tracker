@@ -53,9 +53,11 @@ router.get("/workouts/range", async function (req, res) {
           totalWeight: {
             $sum: "$exercises.weight",
           },
-        }
-      }
-    ]).limit(7);
+        },
+      },
+    ])
+      .sort({ day: -1 })
+      .limit(7);
     res.json(range);
   } catch (err) {
     res.status(500).json(err);
