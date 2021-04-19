@@ -4,7 +4,7 @@ const { Workout } = require("../models");
 // this is the full route --> /api/workouts...
 router.get("/workouts", async function (req, res) {
   try {
-    const workouts = await Workout.aggregate([
+    const data = await Workout.aggregate([
       {
         $addFields: {
           totalDuration: {
@@ -16,7 +16,7 @@ router.get("/workouts", async function (req, res) {
         },
       },
     ]);
-    res.json(workouts);
+    res.json(data);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -44,7 +44,7 @@ router.post("/workouts", async function (req, res) {
 
 router.get("/workouts/range", async function (req, res) {
   try {
-    const range = await Workout.find({}).sort({ day: -1 }).limit(7);
+    const range = await Workout.find({}).limit(7);
     res.json(range);
   } catch (err) {
     res.status(500).json(err);

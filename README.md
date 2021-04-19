@@ -10,16 +10,12 @@ Use this app if you would like to keep track of your workout progress. You can c
     
  * [Installation](#installation)
 
- * [Usage](#usage)
 
  * [Questions](#questions)
  
 ## Installation
 Dependencies required are express and mongoosedb.
 
-
-## Usage
-*Usage video coming soon.*
 
 
 ## Questions
